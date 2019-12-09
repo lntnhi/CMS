@@ -31,18 +31,46 @@ class News {
         return $con;
     }
 
-    /**
-     * Lấy dữ liệu
-     */
-    static function getList($keyword=null) {
+    static function getListAdmin($username, $keyword=null) {
         $con = News::connect();
         $sql = "SELECT * FROM News
-                WHERE Title LIKE '%$keyword%' OR Subtitle LIKE '%$keyword%' OR Content LIKE '%$keyword%'";
+                WHERE Username = '$username' AND (Title LIKE '%$keyword%' OR Subtitle LIKE '%$keyword%')";
         $res = $con->query($sql);
         $ls = [];
         if ($res->num_rows > 0) {
             while($row = $res->fetch_assoc()) {
-                $news = new News($row["NewsID"],$row["Title"],$row["Subtitle"],$row["Content"],$row["Image"],$row["CreatedTime"],$row["CategoryID"],$row["Username"]);
+                $news = new News($row["ID"],$row["Title"],$row["Subtitle"],$row["Content"],$row["Image"],$row["CreatedTime"],$row["CategoryID"],$row["Username"]);
+                array_push($ls,$news);
+            }
+        }
+        $con->close();
+        return $ls;
+    }
+
+    static function getListByCategoryAdmin($username, $categoryID) {
+        $con = News::connect();
+        $sql = "SELECT * FROM News WHERE Username = '$username' AND CategoryID = $categoryID";
+        $res = $con->query($sql);
+        $ls = [];
+        if ($res->num_rows > 0) {
+            while($row = $res->fetch_assoc()) {
+                $news = new News($row["ID"],$row["Title"],$row["Subtitle"],$row["Content"],$row["Image"],$row["CreatedTime"],$row["CategoryID"],$row["Username"]);
+                array_push($ls,$news);
+            }
+        }
+        $con->close();
+        return $ls;
+    }
+
+    static function getList($keyword=null) {
+        $con = News::connect();
+        $sql = "SELECT * FROM News
+                WHERE Title LIKE '%$keyword%' OR Subtitle LIKE '%$keyword%'";
+        $res = $con->query($sql);
+        $ls = [];
+        if ($res->num_rows > 0) {
+            while($row = $res->fetch_assoc()) {
+                $news = new News($row["ID"],$row["Title"],$row["Subtitle"],$row["Content"],$row["Image"],$row["CreatedTime"],$row["CategoryID"],$row["Username"]);
                 array_push($ls,$news);
             }
         }
@@ -57,7 +85,7 @@ class News {
         $ls = [];
         if ($res->num_rows > 0) {
             while($row = $res->fetch_assoc()) {
-                $news = new News($row["NewsID"],$row["Title"],$row["Subtitle"],$row["Content"],$row["Image"],$row["CreatedTime"],$row["CategoryID"],$row["Username"]);
+                $news = new News($row["ID"],$row["Title"],$row["Subtitle"],$row["Content"],$row["Image"],$row["CreatedTime"],$row["CategoryID"],$row["Username"]);
                 array_push($ls,$news);
             }
         }
@@ -67,16 +95,47 @@ class News {
 
     static function getNewsByID($ID) {
         $con = News::connect();
-        $sql = "SELECT * FROM News WHERE NewsID = $ID";
+        $sql = "SELECT * FROM News WHERE ID = $ID";
         $res = $con->query($sql);
         $ls = [];
         if ($res->num_rows > 0) {
             while($row = $res->fetch_assoc()) {
-                $news = new News($row["NewsID"],$row["Title"],$row["Subtitle"],$row["Content"],$row["Image"],$row["CreatedTime"],$row["CategoryID"],$row["Username"]);
+                $news = new News($row["ID"],$row["Title"],$row["Subtitle"],$row["Content"],$row["Image"],$row["CreatedTime"],$row["CategoryID"],$row["Username"]);
             }
         }
         $con->close();
         return $news;
+    }
+
+    static function add ($title, $subtitle, $content, $image, $categoryID, $username) {
+        $con = News::connect();
+        $sql = "INSERT INTO News(Title, Subtitle, Content, Image, CategoryID, Username) 
+                        VALUES ('$title', '$subtitle', '$content', '$image', $categoryID, '$username')";
+        $res = $con->query($sql);
+        $con->close();
+    }
+
+    static function edit ($ID, $title, $subtitle, $content, $image, $categoryID) {
+        $con = News::connect();
+        if(strlen($image) > 0) {
+            $sql = "UPDATE News 
+                    SET Title = '$title', Subtitle = '$subtitle', Content = '$content', Image = '$image', CategoryID = $categoryID
+                    WHERE ID = $ID";
+        }
+        else {
+            $sql = "UPDATE News 
+                    SET Title = '$title', Subtitle = '$subtitle', Content = '$content', CategoryID = $categoryID
+                    WHERE ID = $ID";
+        }        
+        $res = $con->query($sql);
+        $con->close();
+    }
+
+    static function delete($ID) {
+        $con = News::connect();
+        $sql = "DELETE FROM News WHERE ID = $ID";
+        $res = $con->query($sql);
+        $con->close();
     }
 }
 ?>

@@ -25,20 +25,14 @@ class Admin {
         $ls = [];
         if ($res->num_rows > 0) {
             while($row = $res->fetch_assoc()) {
-                $tag = new User($row["Username"],$row["Password"],$row["Fullname"]);
-                array_push($ls,$tag);
+                $ad = new Admin($row["Username"],$row["Password"],$row["Fullname"]);
+                array_push($ls,$ad);
             }
         }
         $con->close();
         return $ls;
     }
 
-    /**
-     * Xác thực user
-     * @param $username string Tên đăng nhập
-     * @param $username string Mật khẩu
-     * @return User hoặc null nếu không tồn tại
-     */
     static function authentication ($username, $password, $list) {
         foreach ($list as $key => $value) {
             if ($value->username==$username && $value->password==$password)

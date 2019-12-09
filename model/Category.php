@@ -22,14 +22,14 @@ class Category {
     /**
      * Lấy dữ liệu
      */
-    static function getList() {
+    static function getList($search=null) {
         $con = Category::connect();
-        $sql = "SELECT * FROM Category";
+        $sql = "SELECT * FROM Category WHERE (Name LIKE '%$search%')";
         $res = $con->query($sql);
         $ls = [];
         if ($res->num_rows > 0) {
             while($row = $res->fetch_assoc()) {
-                $category = new Category($row["CategoryID"],$row["CategoryName"]);
+                $category = new Category($row["ID"],$row["Name"]);
                 array_push($ls,$category);
             }
         }
@@ -38,16 +38,37 @@ class Category {
     }
     static function getCategoryByID($ID) {
         $con = Category::connect();
-        $sql = "SELECT * FROM Category WHERE CategoryID = $ID";
+        $sql = "SELECT * FROM Category WHERE ID = $ID";
         $res = $con->query($sql);
         $ls = [];
         if ($res->num_rows > 0) {
             while($row = $res->fetch_assoc()) {
-                $category = new Category($row["CategoryID"],$row["CategoryName"]);
+                $category = new Category($row["ID"],$row["Name"]);
             }
         }
         $con->close();
         return $category;
+    }
+
+    static function add ($name) {
+        $con = Category::connect();
+        $sql = "INSERT INTO Category(Name) VALUES ('$name')";
+        $res = $con->query($sql);
+        $con->close();
+    }
+
+    static function edit ($ID, $name) {
+        $con = Category::connect();
+        $sql = "UPDATE Category SET Name = '$name' WHERE ID=$ID";
+        $res = $con->query($sql);
+        $con->close();
+   }
+
+   static function delete($ID) {
+    $con = Category::connect();
+    $sql = "DELETE FROM Category WHERE ID=$ID";
+    $res = $con->query($sql);
+    $con->close();
     }
 }
 ?>
