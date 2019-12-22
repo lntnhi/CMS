@@ -58,9 +58,9 @@ if (isset($_REQUEST["categoryid"])) {
         foreach ($lsNews as $key => $value) {?>
         <tr>
           <th scope="row"><?php echo $value->ID ?></th>
-          <td><?php echo $value->title ?></td>
+          <td><a href="detail.php?ID=<?php echo $value->ID?>"><?php echo $value->title ?></a></td>
           <td><?php echo $value->subtitle ?></td>
-          <td><?php echo $value->image ?></td>
+          <td><img src="<?php echo $value->image ?>" alt="image" width="80" height="80"></td>
           <td><?php echo $value->createdTime ?></td>
           <td>
             <?php $category = Category::getCategoryByID($value->categoryID);

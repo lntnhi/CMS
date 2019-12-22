@@ -48,7 +48,7 @@ if (isset($_REQUEST["categoryid"])) {
     <header class="header-section-other">
         <div class="container-fluid">
             <div class="logo">
-                <a href="./index.html"><img src="img/little-logo.png" alt=""></a>
+                <a href="index.php"><img src="img/little-logo.png" alt=""></a>
             </div>
             <div class="nav-menu">
                 <nav class="main-menu mobile-menu">
@@ -81,12 +81,13 @@ if (isset($_REQUEST["categoryid"])) {
     <section class="recipe-section spad">
         <div class="container">
             <div class="row">
+                <!--=================NEWS================-->
                 <?php foreach ($lsNews as $key => $value) {
                     $category = Category::getCategoryByID($value->categoryID);
                     ?>
                 <div class="col-lg-4 col-sm-6">
                     <div class="recipe-item">
-                        <a href="#"><img src="<?php echo $value->image?>" alt=""></a>
+                        <a href="detail.php?ID=<?php echo $value->ID?>"><img src="<?php echo $value->image?>" alt=""></a>
                         <div class="ri-text">
                             <div class="cat-name"><?php echo $category->name?></div>
                             <a href="detail.php?ID=<?php echo $value->ID?>">
