@@ -1,7 +1,10 @@
+<?php session_start(); ?>
 <?php include_once("header.php") ?>
 <?php include_once("nav.php")?>
 <?php
 include_once("model/Category.php");
+include_once("model/News.php");
+include_once("model/Admin.php");
 $lsCategory = Category::getList();
 ?>
 

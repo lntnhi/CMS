@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"]=="POST") {
     $admin = Admin::authentication($username, $password, $list);
     if ($admin!=null) {
         $_SESSION["admin"] = serialize($admin); //biến user thành 1 chuỗi để lưu zô session
-        header("location:admin_news.php"); //chuyển hướng qua index
+        header("location:admin_news.php"); //chuyển hướng 
     }
     else {
         $info = "Đăng nhập thất bại";

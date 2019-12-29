@@ -1,4 +1,3 @@
-console.log("huhu");
 CKEDITOR.config.filebrowserBrowseUrl = '/cms/ckfinder/ckfinder.html';
 CKEDITOR.config.filebrowserImageBrowseUrl = '/cms/ckfinder/ckfinder.html?type=Images';
 CKEDITOR.config.filebrowserFlashBrowseUrl = '/cms/ckfinder/ckfinder.html?type=Flash';

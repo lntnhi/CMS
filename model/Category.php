@@ -62,13 +62,13 @@ class Category {
         $sql = "UPDATE Category SET Name = '$name' WHERE ID=$ID";
         $res = $con->query($sql);
         $con->close();
-   }
+    }
 
-   static function delete($ID) {
-    $con = Category::connect();
-    $sql = "DELETE FROM Category WHERE ID=$ID";
-    $res = $con->query($sql);
-    $con->close();
+    static function delete($ID) {
+        $con = Category::connect();
+        $sql = "DELETE FROM Category WHERE ID=$ID";
+        $res = $con->query($sql);
+        $con->close();
     }
 }
 ?>
